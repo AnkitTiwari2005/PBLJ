@@ -1,41 +1,34 @@
-SmartQuizApp 🎯
+# SmartQuizApp 🎯
+
 A modern, feature-rich online quiz application built with Spring Boot that allows admins to create quizzes and students to take them with real-time scoring and leaderboards.
 
-✨ Features
-🎓 For Students
-Take Quizzes: Participate in available quizzes with timed sessions
+## ✨ Features
 
-Real-time Timer: Countdown timer for each quiz attempt
+### 🎓 For Students
+- **Take Quizzes**: Participate in available quizzes with timed sessions
+- **Real-time Timer**: Countdown timer for each quiz attempt  
+- **Instant Results**: Immediate scoring after quiz submission
+- **Leaderboards**: View rankings and compare performance with peers
+- **User Registration**: Simple sign-up process
 
-Instant Results: Immediate scoring after quiz submission
+### 👨‍💼 For Admins
+- **Quiz Management**: Create, edit, and delete quizzes
+- **Question Bank**: Add multiple-choice questions with options
+- **Automatic Scoring**: System automatically evaluates and scores attempts
+- **Analytics**: View quiz statistics and performance metrics
+- **User Management**: Monitor student progress and results
 
-Leaderboards: View rankings and compare performance with peers
+## 🚀 Quick Start
 
-User Registration: Simple sign-up process
+### Prerequisites
+- Java 17 or higher
+- Maven 3.6+
+- MySQL 8.0+
 
-👨‍💼 For Admins
-Quiz Management: Create, edit, and delete quizzes
+### Installation & Running
 
-Question Bank: Add multiple-choice questions with options
-
-Automatic Scoring: System automatically evaluates and scores attempts
-
-Analytics: View quiz statistics and performance metrics
-
-User Management: Monitor student progress and results
-
-🚀 Quick Start
-Prerequisites
-Java 17 or higher
-
-Maven 3.6+
-
-MySQL 8.0+
-
-Installation & Running
-Clone the repository
-
-bash
+1. **Clone the repository**
+```bash
 git clone <your-repo-url>
 cd SmartQuizApp
 Database Setup
@@ -118,7 +111,7 @@ Java Version: 17
 📊 Database Schema
 sql
 user        -> id, username, password, role(ADMIN/STUDENT), created_at
-quiz        -> id, title, duration_seconds, created_by, created_at
+quiz        -> id, title, duration_seconds, created_by, created_at  
 question    -> id, quiz_id, text, option_a/b/c/d, correct_option, marks
 attempt     -> id, student_id, quiz_id, score, max_score, started_at, finished_at
 🎨 UI/UX Features
@@ -269,3 +262,4 @@ Student: student / student - Quiz participation only
 Built with ❤️ using Spring Boot & Modern Web Technologies
 
 For support or questions, please check the troubleshooting section or create an issue in the repository.
+
