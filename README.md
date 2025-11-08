@@ -1,316 +1,252 @@
-# SmartQuizApp 🎯
+# 🎯 SmartQuizApp — Modern Online Quiz Platform
 
-A modern, feature-rich online quiz application built with **Spring Boot** that allows admins to create quizzes and students to take them with real-time scoring and leaderboards.
+A **feature-rich**, **responsive**, and **intelligent** quiz application built with **Spring Boot**, empowering admins to manage quizzes and students to compete with **real-time scoring**, **leaderboards**, and **analytics**.
+
+---
+
+## 🚀 Table of Contents
+
+- [✨ Features](#-features)
+- [🧰 Prerequisites](#-prerequisites)
+- [⚙️ Installation & Setup](#️-installation--setup)
+- [🧩 Project Structure](#-project-structure)
+- [🛠️ Technology Stack](#️-technology-stack)
+- [🗄️ Database Schema](#️-database-schema)
+- [📡 API Endpoints](#-api-endpoints)
+- [📊 Core Functionalities](#-core-functionalities)
+- [🐛 Troubleshooting](#-troubleshooting)
+- [🚀 Deployment](#-deployment)
+- [📈 Future Enhancements](#-future-enhancements)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [👥 Default Accounts](#-default-accounts)
 
 ---
 
 ## ✨ Features
 
 ### 🎓 For Students
-- **Take Quizzes**: Participate in available quizzes with timed sessions  
-- **Real-time Timer**: Countdown timer for each quiz attempt  
-- **Instant Results**: Immediate scoring after quiz submission  
-- **Leaderboards**: View rankings and compare performance with peers  
-- **User Registration**: Simple sign-up process  
+- 🧠 Participate in timed quizzes with **real-time countdown**  
+- ⚡ **Instant results** and performance insights  
+- 🏆 **Leaderboards** with rank comparison  
+- 🔐 Simple and secure **registration/login**  
 
 ### 👨‍💼 For Admins
-- **Quiz Management**: Create, edit, and delete quizzes  
-- **Question Bank**: Add multiple-choice questions with options  
-- **Automatic Scoring**: System automatically evaluates and scores attempts  
-- **Analytics**: View quiz statistics and performance metrics  
-- **User Management**: Monitor student progress and results  
+- 🧩 Create, edit, and manage quizzes effortlessly  
+- 🗃️ Maintain a **question bank** with multiple options  
+- ⚙️ **Auto-evaluation** and score calculation  
+- 📈 Monitor performance analytics & user progress  
 
 ---
 
-## 🚀 Quick Start
+## 🧰 Prerequisites
 
-### Prerequisites
-- Java 17 or higher  
-- Maven 3.6+  
-- MySQL 8.0+  
+Ensure you have the following installed:
 
-### Installation & Running
+- ☕ **Java 17+**
+- 🧱 **Maven 3.6+**
+- 🐬 **MySQL 8.0+**
 
-Clone the repository
+---
 
-git clone <your-repo-url>
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone Repository
+```bash
+git clone https://github.com/yourusername/SmartQuizApp.git
 cd SmartQuizApp
-Build and run the application
+```
 
-mvn clean package spring-boot:run
-
-text
-
-### Database Setup
-
+### 2️⃣ Database Setup
+```sql
 CREATE DATABASE smartquizapp;
+```
 
-text
-
-### Configuration
-Update `src/main/resources/application.properties`:
-
-spring.datasource.url=jdbc:mysql://localhost:3306/smartquizapp
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-
-text
-
-### Access the Application
-- **URL**: http://localhost:8080  
-- **Admin**: `admin` / `admin`  
-- **Student**: Register new account or use demo  
-
----
-
-## 🏗️ Project Structure
-
-src/main/java/com/example/smartquizapp/
-├── controller/
-│ ├── AdminController.java
-│ ├── AuthController.java
-│ └── QuizController.java
-├── model/
-│ ├── User.java
-│ ├── Quiz.java
-│ ├── Question.java
-│ └── Attempt.java
-├── repository/
-│ ├── UserRepository.java
-│ ├── QuizRepository.java
-│ ├── QuestionRepository.java
-│ └── AttemptRepository.java
-├── service/
-│ └── QuizService.java
-└── SmartQuizAppApplication.java
-
-text
-
----
-
-## 🛠️ Technology Stack
-
-- **Backend**: Spring Boot 3.2.5, Spring MVC, Spring Data JPA  
-- **Frontend**: Thymeleaf, Bootstrap 5, JavaScript  
-- **Database**: MySQL 8.0 with Hibernate ORM  
-- **Build Tool**: Maven  
-- **Java Version**: 17  
-
----
-
-## 📊 Database Schema
-
--- User table
-CREATE TABLE user (
-id BIGINT AUTO_INCREMENT PRIMARY KEY,
-username VARCHAR(50) UNIQUE NOT NULL,
-password VARCHAR(255) NOT NULL,
-role ENUM('ADMIN','STUDENT') NOT NULL DEFAULT 'STUDENT',
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Quiz table
-CREATE TABLE quiz (
-id BIGINT AUTO_INCREMENT PRIMARY KEY,
-title VARCHAR(255) NOT NULL,
-duration_seconds INT NOT NULL DEFAULT 300,
-created_by BIGINT NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Question table
-CREATE TABLE question (
-id BIGINT AUTO_INCREMENT PRIMARY KEY,
-quiz_id BIGINT NOT NULL,
-text TEXT NOT NULL,
-option_a TEXT NOT NULL,
-option_b TEXT NOT NULL,
-option_c TEXT,
-option_d TEXT,
-correct_option ENUM('A','B','C','D') NOT NULL,
-marks INT NOT NULL DEFAULT 5
-);
-
--- Attempt table
-CREATE TABLE attempt (
-id BIGINT AUTO_INCREMENT PRIMARY KEY,
-student_id BIGINT NOT NULL,
-quiz_id BIGINT NOT NULL,
-score INT NOT NULL DEFAULT 0,
-max_score INT NOT NULL DEFAULT 0,
-started_at DATETIME NOT NULL,
-finished_at DATETIME,
-answers_json JSON
-);
-
-text
-
----
-
-## 🔧 API Endpoints
-
-| Method | Endpoint | Description |
-|--------|-----------|-------------|
-| GET/POST | `/login` | User authentication |
-| GET/POST | `/register` | User registration |
-| GET | `/logout` | User logout |
-| GET | `/quizzes` | List all quizzes |
-| GET | `/quizzes/{id}/start` | Start quiz attempt |
-| POST | `/quizzes/{id}/submit` | Submit quiz answers |
-| GET | `/quizzes/{id}/leaderboard` | View leaderboard |
-| GET | `/admin/dashboard` | Admin dashboard |
-| GET/POST | `/admin/quiz/new` | Create new quiz |
-| GET/POST | `/admin/quiz/{id}/question/new` | Add question to quiz |
-| POST | `/admin/quiz/{id}/delete` | Delete quiz |
-
----
-
-## ⚙️ Configuration
-
-### Application Properties
-
-Server Configuration
-
-server.port=8080
-server.servlet.session.timeout=1800
-Database Configuration
-
+### 3️⃣ Configure Application Properties
+Edit `src/main/resources/application.properties`:
+```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/smartquizapp
 spring.datasource.username=root
 spring.datasource.password=your_password
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
-Thymeleaf Configuration
+server.port=8080
+```
 
-spring.thymeleaf.cache=false
-spring.thymeleaf.prefix=classpath:/templates/
-spring.thymeleaf.suffix=.html
-Custom Settings
+### 4️⃣ Run Application
+```bash
+mvn clean package spring-boot:run
+```
+or
+```bash
+java -jar target/smartquizapp-0.0.1-SNAPSHOT.jar
+```
 
-app.quiz.default-duration=300
-app.quiz.max-questions=50
-Logging
-
-logging.level.com.example.smartquizapp=DEBUG
-
-text
+### 5️⃣ Access Application
+🌐 URL → [http://localhost:8080](http://localhost:8080)
 
 ---
 
-## 🎯 Core Features
+## 🧩 Project Structure
 
-### Quiz Management
-- Timed quizzes with configurable duration (default: 5 minutes)  
-- Multiple choice questions (2–4 options)  
-- Automatic scoring with detailed feedback  
-- Persistent score tracking with timestamps  
+```
+src/main/java/com/example/smartquizapp/
+├── controller/
+│   ├── AdminController.java
+│   ├── AuthController.java
+│   └── QuizController.java
+├── model/
+│   ├── User.java
+│   ├── Quiz.java
+│   ├── Question.java
+│   └── Attempt.java
+├── repository/
+│   ├── UserRepository.java
+│   ├── QuizRepository.java
+│   ├── QuestionRepository.java
+│   └── AttemptRepository.java
+├── service/
+│   └── QuizService.java
+└── SmartQuizAppApplication.java
+```
 
-### User Management
-- Role-based access for admins and students  
-- Secure login and session handling  
-- Individual progress tracking  
+---
 
-### Analytics & Leaderboards
-- Real-time leaderboard updates  
-- Performance metrics (average scores, completion rates)  
-- Comparative peer analysis  
+## 🛠️ Technology Stack
+
+| Layer | Technology |
+|--------|-------------|
+| Backend | Spring Boot 3.2.5, Spring MVC, Spring Data JPA |
+| Frontend | Thymeleaf, Bootstrap 5, JavaScript |
+| Database | MySQL 8.0 (via Hibernate ORM) |
+| Build Tool | Maven |
+| Java Version | 17 |
+
+---
+
+## 🗄️ Database Schema
+
+### 🧑‍💻 User Table
+```sql
+CREATE TABLE user (
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ username VARCHAR(50) UNIQUE NOT NULL,
+ password VARCHAR(255) NOT NULL,
+ role ENUM('ADMIN','STUDENT') DEFAULT 'STUDENT',
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### 📝 Quiz Table
+```sql
+CREATE TABLE quiz (
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ title VARCHAR(255) NOT NULL,
+ duration_seconds INT DEFAULT 300,
+ created_by BIGINT NOT NULL,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### ❓ Question Table
+```sql
+CREATE TABLE question (
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ quiz_id BIGINT NOT NULL,
+ text TEXT NOT NULL,
+ option_a TEXT NOT NULL,
+ option_b TEXT NOT NULL,
+ option_c TEXT,
+ option_d TEXT,
+ correct_option ENUM('A','B','C','D') NOT NULL,
+ marks INT DEFAULT 5
+);
+```
+
+### 🧾 Attempt Table
+```sql
+CREATE TABLE attempt (
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ student_id BIGINT NOT NULL,
+ quiz_id BIGINT NOT NULL,
+ score INT DEFAULT 0,
+ max_score INT DEFAULT 0,
+ started_at DATETIME NOT NULL,
+ finished_at DATETIME,
+ answers_json JSON
+);
+```
+
+---
+
+## 📡 API Endpoints
+
+| Method | Endpoint | Description |
+|--------|-----------|-------------|
+| GET/POST | `/login` | User authentication |
+| GET/POST | `/register` | New user registration |
+| GET | `/logout` | Logout user |
+| GET | `/quizzes` | View available quizzes |
+| GET | `/quizzes/{id}/start` | Start a quiz |
+| POST | `/quizzes/{id}/submit` | Submit quiz answers |
+| GET | `/quizzes/{id}/leaderboard` | View quiz leaderboard |
+| GET | `/admin/dashboard` | Admin dashboard |
+| GET/POST | `/admin/quiz/new` | Create new quiz |
+| GET/POST | `/admin/quiz/{id}/question/new` | Add questions |
+| POST | `/admin/quiz/{id}/delete` | Delete quiz |
+
+---
+
+## 📊 Core Functionalities
+
+### 🧠 Quiz Management
+- Configurable duration and question count  
+- Auto-grading based on correct answers  
+- Persistent scoring with timestamps  
+
+### 👤 User Management
+- Role-based access (Admin/Student)  
+- Secure authentication and sessions  
+- Progress tracking dashboard  
+
+### 📈 Analytics & Leaderboards
+- Live leaderboard updates  
+- Average scores and participation rate  
+- Historical performance tracking  
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Common Issues & Solutions
+| Issue | Solution |
+|--------|-----------|
+| ❌ MySQL Connection Error | Check MySQL service and credentials |
+| 🧱 Build Failure | `mvn clean package` and verify Java version |
+| ⚙️ Startup Issue | Enable debug logging and check port `8080` |
 
-**1. Database Connection Issues**
-
-Verify MySQL service is running
-
-sudo systemctl status mysql
-Check database exists
-
-mysql -u root -p -e "SHOW DATABASES;"
-
-text
-
-**2. Build Failures**
-
-Clean and rebuild
-
-mvn clean package
-Verify Java version
-
-java -version
-Clear Maven cache
-
-mvn dependency:purge-local-repository
-
-text
-
-**3. Application Startup Issues**
-
-Enable debug logging
-
-logging.level.org.springframework=DEBUG
-logging.level.org.hibernate=DEBUG
-Check port availability
-
-netstat -tulpn | grep 8080
-
-text
-
-**4. Quiz Evaluation Problems**
-
-// Debugging in QuizService
-System.out.println("Question ID: " + question.getId());
-System.out.println("User Answer: " + userAnswer);
-System.out.println("Correct Answer: " + correctAnswer);
-
-text
-
-### Debug Mode
-
-Detailed debug configuration
-
-logging.level.com.example.smartquizapp=TRACE
+Enable Debug Logs:
+```properties
+logging.level.com.example.smartquizapp=DEBUG
 logging.level.org.hibernate.SQL=DEBUG
-logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
 logging.level.org.springframework.web=DEBUG
-logging.level.org.thymeleaf=DEBUG
-
-text
+```
 
 ---
 
 ## 🚀 Deployment
 
-### Local Development
-
+### 🖥️ Local
+```bash
 mvn spring-boot:run
-Or
+```
 
-mvn clean package
-java -jar target/smartquizapp-0.0.1-SNAPSHOT.jar
-
-text
-
-### Production Deployment
-
-Build with tests
-
-mvn clean package
-Run with production profile
-
+### 🧳 Production
+```bash
 java -jar -Dspring.profiles.active=prod target/smartquizapp-0.0.1-SNAPSHOT.jar
-Run on custom port
+```
 
-java -jar -Dserver.port=8080 target/smartquizapp-0.0.1-SNAPSHOT.jar
-
-text
-
-### Docker Deployment
-
-Dockerfile
-
+### 🐳 Docker
+```Dockerfile
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
@@ -322,70 +258,39 @@ WORKDIR /app
 COPY --from=build /app/target/smartquizapp-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app/app.jar"]
-
-text
-undefined
-
-Build and run with Docker
-
+```
+```bash
 docker build -t smartquizapp .
 docker run -p 8080:8080 smartquizapp
-
-text
-
-Docker Compose:
-
-docker-compose up -d
-
-text
+```
 
 ---
 
 ## 📈 Future Enhancements
 
-- [ ] Email notifications for quiz results  
-- [ ] Question categories and tags  
-- [ ] Advanced analytics and reporting  
-- [ ] Question image support  
-- [ ] Export results to PDF/Excel  
-- [ ] REST API for mobile apps  
-- [ ] Social features and sharing  
-- [ ] Advanced question types  
-- [ ] Bulk question import  
-- [ ] Time-based quiz availability  
-- [ ] Question randomization  
-- [ ] Custom scoring rules  
+- [ ] Email notifications  
+- [ ] Question tagging & categories  
+- [ ] Image-based questions  
+- [ ] Mobile REST API integration  
+- [ ] Advanced analytics dashboard  
+- [ ] Randomized question order  
+- [ ] PDF/Excel export for results  
 
 ---
 
 ## 🤝 Contributing
 
-1. Fork the repository  
-2. Create feature branch: `git checkout -b feature/amazing-feature`  
-3. Commit changes: `git commit -m 'Add amazing feature'`  
-4. Push to branch: `git push origin feature/amazing-feature`  
-5. Open Pull Request  
-
-### Development Setup
-
-Clone and setup
-
-git clone https://github.com/yourusername/SmartQuizApp.git
-cd SmartQuizApp
-Create development branch
-
-git checkout -b development
-Install dependencies
-
-mvn clean install
-
-text
+1. **Fork** the repo  
+2. Create a **feature branch** (`git checkout -b feature/amazing-feature`)  
+3. **Commit** changes (`git commit -m "Add feature"`)  
+4. **Push** to branch (`git push origin feature/amazing-feature`)  
+5. Open a **Pull Request** 🎉
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.  
+Licensed under the **MIT License**.  
 See [LICENSE](LICENSE) for details.
 
 ---
@@ -394,47 +299,10 @@ See [LICENSE](LICENSE) for details.
 
 | Role | Username | Password | Access |
 |------|-----------|----------|--------|
-| Admin | `admin` | `admin` | Full system access |
-| Student | `student` | `student` | Quiz participation |
+| Admin | `admin` | `admin` | Full Access |
+| Student | `student` | `student` | Quiz Participation |
 
 ---
 
-## 🔍 Monitoring & Logs
-
-### Application Logs
-
-View application logs
-
-tail -f logs/application.log
-Enable Spring Security debug logs
-
-logging.level.org.springframework.security=DEBUG
-
-text
-
-### Database Monitoring
-
--- Monitor ongoing quiz attempts
-SELECT * FROM attempt WHERE finished_at IS NULL;
-
--- View quiz statistics
-SELECT quiz_id, COUNT(*) AS attempts, AVG(score) AS avg_score
-FROM attempt
-GROUP BY quiz_id;
-
-text
-
-### Performance Monitoring
-
-Enable Actuator endpoints
-
-management.endpoints.web.exposure.include=health,metrics,info
-management.endpoint.health.show-details=always
-
-text
-
----
-
-**Built with ❤️ using Spring Boot & Modern Web Technologies**
-
-*For support, check the troubleshooting section or create an issue in the repository.*
+> **Built with ❤️ using Spring Boot, Thymeleaf, and MySQL**  
+> *Empowering learning through interactive quizzing.*
